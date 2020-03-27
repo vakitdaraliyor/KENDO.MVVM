@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+}
+
+
+
+<div class="container">
+    <div class="row justify-content-md-center mt-5">
+        <div class="col-md-6">
+            <h3>Create Category</h3>
+            <a class="btn btn-outline-secondary btn-sm" href="/Category/Index">Back To List</a>
+            <form class="k-form mt-3" action="/Category/CreateCategory" method="post">
+                <label class="k-form-field">
+                    <input id="categoryId" data-bind="value: categoryId" type="hidden" class="k-textbox" placeholder="Enter category name" />
+                </label>
+                <label class="k-form-field">
+                    <span>Category Name</span>
+                    <input id="categoryName" data-bind="value: categoryName" class="k-textbox" placeholder="Enter category name" />
+                </label>
+                <div class="text-right">
+                    <button id="create" data-bind="click: create" class="k-button">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var categoryViewModel = kendo.observable({
+        CategoryId: null,
+        CategoryName: null,
+        create: function () {
+            var categoryId = $('#categoryId').val();
+            var categoryName = $('#categoryName').val();
+            console.log(categoryId + " " + categoryName);
+            $.ajax({
+                type: "post",
+                url: "/Category/CreateCategory",
+                data: { CategoryId: categoryId, CategoryName: categoryName },
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+        }
+    });
+    kendo.bind($('form'), categoryViewModel);
+</script>
